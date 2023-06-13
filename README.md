@@ -1,2 +1,2 @@
 # Cocktails
-Cocktail mobile app made with react-native
+Cocktail mobile app made with flutter
