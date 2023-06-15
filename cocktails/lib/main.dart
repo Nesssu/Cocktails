@@ -1,7 +1,4 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-
 void main()
 {
   runApp(const MyApp());
@@ -24,7 +21,19 @@ class MyApp extends StatelessWidget
           child: Column(
             children: [
               SearchBar(),
-              ButtonRow()
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children:
+                  [
+                    Button(value: 'Whiskey'),
+                    Button(value: 'Vodka'),
+                    Button(value: 'Gin'),
+                    Button(value: 'Rum'),
+                    Button(value: 'Tequila'),
+                  ],
+              ),
+              HorizontalSeparator(),
+
             ],
           )
         )
@@ -33,23 +42,29 @@ class MyApp extends StatelessWidget
   }
 }
 
-class ButtonRow extends StatelessWidget
+
+
+class HorizontalSeparator extends StatelessWidget
 {
-  const ButtonRow({super.key});
+  const HorizontalSeparator({super.key});
 
   @override
   Widget build(BuildContext context)
   {
-    return const Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children:
-      [
-        Button(value: 'Whiskey'),
-        Button(value: 'Vodka'),
-        Button(value: 'Gin'),
-        Button(value: 'Rum'),
-        Button(value: 'Tequila'),
-      ],
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final dividerWidth = constraints.maxWidth * 0.9; // Calculate 90% of the screen width
+        return Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: SizedBox(
+            width: dividerWidth,
+            child: const Divider(
+              color: Color.fromARGB(255, 86, 86, 86),  // Set the desired color for the line
+              thickness: 0.5,       // Set the desired thickness for the line
+            ),
+          )
+        );
+      },
     );
   }
 }
@@ -86,13 +101,18 @@ class Button extends StatelessWidget
             ),
           ),
           onPressed: () {},
-          child: Text(value)
+          child: Text(
+            value,
+            style: const TextStyle(
+              color: Color.fromARGB(255, 86, 86, 86)
+            ),
+          )
         )
       )
     );
   }
 }
- 
+
 class SearchBar extends StatefulWidget
 {
   const SearchBar({super.key});
@@ -131,6 +151,9 @@ class _SearchBarState extends State<SearchBar>
                   search = value;
                 });
               },
+              style: const TextStyle(
+                color: Color.fromARGB(255, 86, 86, 86)
+              ),
               decoration: InputDecoration(
                 hintText: 'Search...',
                 prefixIcon: const Icon(Icons.search),
@@ -140,10 +163,10 @@ class _SearchBarState extends State<SearchBar>
                   borderSide: BorderSide.none,
                   borderRadius: BorderRadius.circular(25.0),
                 ),
-                ),
               ),
             ),
           ),
+        ),
       ],
     );
   }
