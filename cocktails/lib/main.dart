@@ -1,48 +1,128 @@
 import 'package:flutter/material.dart';
+
+class Data
+{
+  static Data? _instance;
+  Data._();
+  static Data get instance {
+    _instance ??= Data._();
+    return _instance!;
+  }
+
+  // ignore: non_constant_identifier_names
+  List<Object> SearchResult = [];
+  // ignore: non_constant_identifier_names
+  GetSearchResult() { return SearchResult; }
+  // ignore: non_constant_identifier_names
+  SetSearchResult(List<Object> NewList) { SearchResult = NewList; }
+}
+
 void main()
 {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget
-{
-  const MyApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: const Text("Cocktails"),
         ),
-        body: const Center( 
+        body: Center(
           child: Column(
             children: [
-              SearchBar(),
-              Row(
+              const SearchBar(),
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children:
-                  [
-                    Button(value: 'Whiskey'),
-                    Button(value: 'Vodka'),
-                    Button(value: 'Gin'),
-                    Button(value: 'Rum'),
-                    Button(value: 'Tequila'),
-                  ],
+                children: [
+                  Button(value: 'Whiskey'),
+                  Button(value: 'Vodka'),
+                  Button(value: 'Gin'),
+                  Button(value: 'Rum'),
+                  Button(value: 'Tequila'),
+                ],
               ),
-              HorizontalSeparator(),
-
+              const HorizontalSeparator(),
+              Expanded(
+                child: ListView(
+                  children: const [
+                    CocktailButton(name: "Old Fashioned"),
+                    CocktailButton(name: "Negroni"),
+                    CocktailButton(name: "French Connection"),
+                    CocktailButton(name: "Gimlet"),
+                    CocktailButton(name: "Whiskey Sour"),
+                    CocktailButton(name: "Godfather"),
+                    CocktailButton(name: "White Russian"),
+                    CocktailButton(name: "Espresso Martini"),
+                    CocktailButton(name: "Vodka Martini"),
+                  ],
+                ),
+              ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CocktailButton extends StatelessWidget
+{
+  final String name;
+  const CocktailButton({super.key, required this.name});
+
+  // ignore: non_constant_identifier_names
+  ButtonOnPress()
+  {
+    // ignore: avoid_print
+    print(name);
+  }
+
+  @override
+  Widget build(BuildContext context)
+  {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          boxShadow: [
+            BoxShadow(
+              color: const Color.fromARGB(255, 126, 126, 126).withOpacity(0.3),
+              blurRadius: 10.0,
+              offset: const Offset(0, 0),
+            ),
+          ],
+        ),
+        child: TextButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 214, 214, 114)),
+            padding: MaterialStateProperty.all<EdgeInsetsGeometry>(const EdgeInsets.all(50)),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+            ),
+          ),
+          onPressed: ButtonOnPress,
+          child: Text(
+            name,
+            style: const TextStyle(
+              color: Color.fromARGB(255, 86, 86, 86),
+              fontFamily: 'TiltPrism',
+              fontSize: 30,
+              fontWeight: FontWeight.bold
+            ),
           )
         )
       )
     );
   }
 }
-
-
 
 class HorizontalSeparator extends StatelessWidget
 {
@@ -55,7 +135,7 @@ class HorizontalSeparator extends StatelessWidget
       builder: (BuildContext context, BoxConstraints constraints) {
         final dividerWidth = constraints.maxWidth * 0.9; // Calculate 90% of the screen width
         return Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
           child: SizedBox(
             width: dividerWidth,
             child: const Divider(
@@ -73,6 +153,13 @@ class Button extends StatelessWidget
 {
   final String value;
   const Button({super.key, required this.value});
+
+  // ignore: non_constant_identifier_names
+  ButtonOnPress()
+  {
+    // ignore: avoid_print
+    print(value);
+  }
 
   @override
   Widget build(BuildContext context)
@@ -100,7 +187,7 @@ class Button extends StatelessWidget
               ),
             ),
           ),
-          onPressed: () {},
+          onPressed: ButtonOnPress,
           child: Text(
             value,
             style: const TextStyle(
